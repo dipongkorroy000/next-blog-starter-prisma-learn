@@ -6,8 +6,20 @@ const postCreate = async (payload: Prisma.PostCreateInput): Promise<Post> => {
   return post;
 };
 
-const getAllPosts = async ({ page = 1, limit = 10, search, isFeatured }: { page?: number; limit?: number; search?: string; isFeatured?: boolean }) => {
-  // console.log({ page, limit, search, isFeatured });
+const getAllPosts = async ({
+  page = 1,
+  limit = 10,
+  search,
+  isFeatured,
+  tags,
+}: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  isFeatured?: boolean;
+  tags?: string[];
+}) => {
+  // console.log({ page, limit, search, isFeatured, tags });
 
   const skip = (page - 1) * limit;
 
@@ -17,6 +29,7 @@ const getAllPosts = async ({ page = 1, limit = 10, search, isFeatured }: { page?
         OR: [{ title: { contains: search, mode: "insensitive" } }, { content: { contains: search, mode: "insensitive" } }],
       },
       typeof isFeatured === "boolean" && { isFeatured },
+      tags && tags?.length > 0 && { tags: { hasEvery: tags } },
     ].filter(Boolean),
   };
 
