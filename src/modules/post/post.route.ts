@@ -4,6 +4,7 @@ import { PostController } from "./post.controller";
 const route = Router();
 
 route.get("/", PostController.getAllPosts);
+route.get("/stats", PostController.getBlogStat);
 route.get("/:id", PostController.getPostById);
 
 route.post("/", PostController.postCreate);

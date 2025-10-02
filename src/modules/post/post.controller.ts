@@ -42,4 +42,14 @@ const deletePost = async (req: Request, res: Response) => {
   res.json({ message: "Post deleted" });
 };
 
-export const PostController = { postCreate, getAllPosts, getPostById, updatePost, deletePost };
+const getBlogStat = async (req: Request, res: Response) => {
+  try {
+    const result = await PostService.getBlogStat();
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+export const PostController = { postCreate, getAllPosts, getPostById, updatePost, deletePost, getBlogStat };
